@@ -1,20 +1,13 @@
-<<<<<<< HEAD
-** Notice
-beautiful soup과 selenium을 모두 사용했습니다.
-아래 chrome Driver를 설치해야 해요.
-
-시간 단위만 바꾸시면 됩니다. age에 해당하는 range(1,5)만 바꿔서 크롤링 돌리면 돼요.
-(next_page 존재하는지 여부 상관없이 돌아갑니다)
-크롤링하다가 block 당할 수 있을 거 같아서, weekly base로 csv 파일 저장하도록 해두었습니다.
-혹시 이해 안 되는 코드가 있으면 아래 reference 참고하셔도 되고, 연락주셔도 됩니다.
-
-Download chrome Driver here
-https://sites.google.com/a/chromium.org/chromedriver/downloads
-
-reference
-http://baekse.me/Melon-Chart-Crawling/
-https://beomi.github.io/2017/02/27/HowToMakeWebCrawler-With-Selenium/
-
-Notice
+2000년~2009년 크롤링
 =======
->>>>>>> parent of 73f51b3... breif
+발견한 이것저것 소소한 문제들을 기록해두었습니다. 
+대부분 가사 뽑는 데 문제는 없었지만 개인적으로 기억하기 위하여..
+
+
+* 크롤링할 때 가사가 첫 소절까지만 혹은 중간에서 잘리는 일이 발생하는 경우 간혹 있음
+* <펼치기> 버튼이 읽힌 경우 한 번 있음 (어느 곡인지는 놓침.. 박정현 곡이었던것까지는 기억이 나지만..)
+* 주차별로 크롤링한 관계로 중복곡이 굉장히 많을 텐데 이걸 데이터처리할 때 잘 고려해야 할 것 같음
+* html을 그대로 뽑아서 &이 &amp;로 입력되는데 데이터처리할때 바꾸어줘야 할 것 같다
+* 노래가 멜론 데이터베이스 상에서 아예 지워졌을 경우를 (링크 접속시 '없는 곡입니다'로 뜸) try-catch문 추가로 일단 해결 (그런데 곡번호만 나오는 문제 발생 - 가사는 정상적으로 읽혀서 재크롤링은 안 함)
+* 51-100페이지에 접속하지 못하고 (no_next_page 에러 발생) 해당 순위권의 곡들이 순위를 제외한 곡정보가 전부 정상적으로 크롤링되는 경우 발생
+* 연도가 넘어가는 주의 경우 주의 시작 연도가 아닌 주의 과반이 속한 연도로 기록되기 때문에 순서가 살짝 꼬인다
