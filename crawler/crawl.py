@@ -6,6 +6,7 @@ import json
 import re
 from selenium.common.exceptions import NoSuchElementException
 import csv
+import os
 
 header = {'User-Agent': ''}
 d = webdriver.Chrome('./chromedriver')
@@ -15,7 +16,7 @@ d.get("http://www.melon.com/chart/search/index.htm")
 d.find_element_by_xpath('//*[@id="d_chart_search"]/div/h4[1]/a').click()
 
 
-for i in range(1, 5):
+for i in range(4, 5):
     # age 10년 단위
     age_xpath = '//*[@id="d_chart_search"]/div/div/div[1]/div[1]/ul/li[' + str(i) + ']/span/label'
     age = d.find_element_by_xpath(age_xpath)
@@ -60,7 +61,9 @@ for i in range(1, 5):
                 except:
                     print("week_xpath not found")
                     continue
-                
+                # 이미 크롤링된 week라면 다음 week로 넘기기
+                if (os.path.isfile('./result_{}_{}.csv'.format(year.text, week.text))):
+	                continue
 
                 # genre selection
                 try:
@@ -125,8 +128,13 @@ for i in range(1, 5):
                         creator = ','.join(creator)        
                         
                         # 가사
-                        lyric = re.sub('<[^>]*>|\s|\[|\]', ' ', str(soup.find_all(attrs={"class": "lyric"})[0]))
-                        lyric = re.sub('^\s*|\s+$', '', lyric)
+                        # 가사가 없을 시의 예외처리 필요 (181011 by BH)
+                        if soup.find_all(attrs={"class": "lyric"}):
+                            lyric = re.sub('<[^>]*>|\s|\[|\]', ' ', str(soup.find_all(attrs={"class": "lyric"})[0]))
+                            lyric = re.sub('^\s*|\s+$', '', lyric)
+                        else: # 가사 없을 시에는 공백만 
+                            lyric = ''
+                        
                         
                         result.append({
                             'time': re.sub('[^0-9~]', '.', year.text + week.text),
